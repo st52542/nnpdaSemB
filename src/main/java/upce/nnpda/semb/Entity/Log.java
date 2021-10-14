@@ -1,7 +1,8 @@
 package upce.nnpda.semb.Entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class Log {
@@ -12,6 +13,14 @@ public class Log {
     private Sensor sensor;
     @Column(length = 45)
     private Float measurement;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(length = 45)
+    private Date timestamp;
+
+    @PrePersist
+    private void onCreate(){
+        timestamp=new Date();
+    }
 
 
     public Long getId() {
@@ -38,4 +47,11 @@ public class Log {
         this.measurement = measurement;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 }

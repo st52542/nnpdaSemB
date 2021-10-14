@@ -9,7 +9,7 @@ public class SemBApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SemBApplication.class, args);
-        GeneratorData.generator();
+        //GeneratorData.generator();
     }
 
 }

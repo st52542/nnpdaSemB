@@ -16,11 +16,8 @@ services:
     security_opt:
       - seccomp:unconfined
 
-  logstash:
-    image: logstash:7.14.1
-
   elasticsearch:
-    image: logstash:7.14.1
+    image: elasticsearch:7.14.1
     container_name: elasticsearch
     environment:
       - xpack.monitoring.enabled:true
@@ -51,6 +48,16 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+
+  logstash:
+    image: logstash:7.14.1
+    depends_on:
+      - mysql
+      - elasticsearch
+    volumes:
+      - ./volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
+      - ./volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
 
 volumes:
   mysql_db:

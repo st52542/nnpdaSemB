@@ -9,6 +9,9 @@ import upce.nnpda.semb.Repository.ListOfDevicesRepository;
 import upce.nnpda.semb.Repository.LogRepository;
 import upce.nnpda.semb.Repository.SensorRepository;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Service
 public class LogServicesImpl implements LogServices{
     @Autowired
