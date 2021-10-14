@@ -21,10 +21,9 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-    //String SERVERMAIL = "testnnpda@gmail.com";
-    //String PASS = "Nnpda123";
-    String SERVERMAIL = "testnnpda@gmail.com";
-    String PASS = "Nnpda123";
+
+    String SERVERMAIL = "";
+    String PASS = "";
     @Autowired
     AuthenticationManager authenticationManager;
 
