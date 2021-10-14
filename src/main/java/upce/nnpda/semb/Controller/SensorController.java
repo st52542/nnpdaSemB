@@ -30,6 +30,16 @@ public class SensorController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
+//simulating ... in real world no
+    @GetMapping(value = {"/ids"})
+    public List<Long> getSensorsIds() {
+        try {
+            return sensorService.getSensorsIds();
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public Sensor addSensor(Authentication authentication,@RequestBody AddSensorDTO addSensorDTO) {

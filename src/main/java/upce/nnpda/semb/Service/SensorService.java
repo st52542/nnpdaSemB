@@ -10,4 +10,5 @@ import java.util.List;
 public interface SensorService {
     List<Sensor> getSensors(Authentication authentication, DeviceDTO deviceDTO);
     Sensor addSensor(Authentication authentication, AddSensorDTO addSensorDTO);
+    List<Long>getSensorsIds();
 }
