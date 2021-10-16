@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'jp.spring-boot-reference:functional-template:1.1'
     implementation group: 'org.json', name: 'json', version: '20210307'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
