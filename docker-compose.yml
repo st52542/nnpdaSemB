@@ -15,20 +15,27 @@ services:
       - mysql_db:/var/lib/mysql
     security_opt:
       - seccomp:unconfined
+    networks:
+      - elastic
 
   elasticsearch:
-    image: elasticsearch:7.14.1
+    image: elasticsearch:7.14.2
     container_name: elasticsearch
     environment:
-      - xpack.monitoring.enabled:false
+      - xpack.monitoring.enabled:true
+      - xpack.monitoring.elasticsearch.url:http://elasticsearch:9200
       - xpack.management.enabled:true
       - xpack.security.audit.enabled:true
       - xpack.security.enabled=false
+      - dead_letter_queue.enable:true
       - xpack.security.authc.api_key.enabled=true
       - xpack.security.audit.enabled=true
       - ELASTIC_PASSWORD=root
       - discovery.type=single-node
       - discovery.zen.ping.unicast.hosts=elasticsearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "ELASTIC_HOST=localhost:9200"
     ulimits:
       memlock:
         soft: -1
@@ -46,10 +53,12 @@ services:
       - "9600:9600"
     expose:
       - "9200"
+    networks:
+      - elastic
 
   kibana:
     container_name: kibana
-    image: kibana:7.14.1
+    image: kibana:7.14.2
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - ELASTICSEARCH_USERNAME=elastic
@@ -58,19 +67,28 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    networks:
+      - elastic
 
   logstash:
-    image: logstash:7.14.1
+    image: logstash-mysql:latest
     depends_on:
       - mysql
       - elasticsearch
+    restart: always
     volumes:
       - ./volumes/logstash/pipeline/:/usr/share/logstash/pipeline/
       - ./volumes/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
       - ./volumes/logstash/config/queries/:/usr/share/logstash/config/queries/
+    networks:
+      - elastic
 
 volumes:
   mysql_db:
     driver: local
   elasticsearch-data:
     driver: local
+
+networks:
+  elastic:
+    driver: bridge
