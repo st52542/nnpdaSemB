@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import upce.nnpda.semb.DTO.AddSensorDTO;
 import upce.nnpda.semb.DTO.DeviceDTO;
+import upce.nnpda.semb.DTO.ModifySensorDTO;
 import upce.nnpda.semb.Entity.Sensor;
 import upce.nnpda.semb.Service.SensorService;
 
@@ -45,6 +46,16 @@ public class SensorController {
     public Sensor addSensor(Authentication authentication,@RequestBody AddSensorDTO addSensorDTO) {
         try {
             return sensorService.addSensor(authentication, addSensorDTO);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseBody
+    public Sensor modifySensor(Authentication authentication,@RequestBody ModifySensorDTO modifySensorDTO) {
+        try {
+            return sensorService.modifySensor(authentication, modifySensorDTO);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import upce.nnpda.semb.DTO.AddDeviceDTO;
+import upce.nnpda.semb.DTO.ModifyDeviceDTO;
 import upce.nnpda.semb.Entity.Device;
 
 import upce.nnpda.semb.Service.DeviceService;
@@ -35,6 +36,15 @@ public class DeviceController {
     public Device addDevice(Authentication authentication,@RequestBody AddDeviceDTO device) {
         try {
             return deviceService.addDevice(authentication,device);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseBody
+    public Device modifyDevice(Authentication authentication,@RequestBody ModifyDeviceDTO device) {
+        try {
+            return deviceService.modifyDevice(authentication,device);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

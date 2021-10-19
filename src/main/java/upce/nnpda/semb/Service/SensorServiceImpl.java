@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import upce.nnpda.semb.DTO.AddSensorDTO;
 import upce.nnpda.semb.DTO.DeviceDTO;
+import upce.nnpda.semb.DTO.ModifySensorDTO;
 import upce.nnpda.semb.Entity.Device;
 import upce.nnpda.semb.Entity.ListOfDevices;
 import upce.nnpda.semb.Entity.Sensor;
@@ -64,5 +65,16 @@ public class SensorServiceImpl implements SensorService{
         List<Long> idsList = new ArrayList<>();
         allSensors.forEach(sensorRecord->{idsList.add(sensorRecord.getId());});
         return idsList;
+    }
+
+    @Override
+    public Sensor modifySensor(Authentication authentication, ModifySensorDTO modifySensorDTO) {
+        Optional<User> user = userRepository.findByUsername(authentication.getName());
+        if (user != null){
+            Optional<Sensor> forModify=sensorRepository.findById(modifySensorDTO.getId());
+            forModify.get().setDescription(modifySensorDTO.getDescription());
+            sensorRepository.save(forModify.get());
+        }
+        return sensorRepository.findByDescription(modifySensorDTO.getDescription());
     }
 }

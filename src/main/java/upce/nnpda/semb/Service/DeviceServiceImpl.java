@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import upce.nnpda.semb.DTO.AddDeviceDTO;
+import upce.nnpda.semb.DTO.ModifyDeviceDTO;
 import upce.nnpda.semb.Entity.Device;
 import upce.nnpda.semb.Entity.ListOfDevices;
 import upce.nnpda.semb.Entity.User;
@@ -44,6 +45,15 @@ public class DeviceServiceImpl implements DeviceService{
         newDevice.setDevices(deviceRepository.findByDescription(device.getDescription()));
         newDevice.setUser(user.get());
         listOfDevicesRepository.save(newDevice);
+        return deviceRepository.findByDescription(device.getDescription());
+    }
+
+    @Override
+    public Device modifyDevice(Authentication authentication, ModifyDeviceDTO device) {
+        userRepository.findByUsername(authentication.getName());
+        Optional<Device> forModify = deviceRepository.findById(device.getId());
+        forModify.get().setDescription(device.getDescription());
+        deviceRepository.save(forModify.get());
         return deviceRepository.findByDescription(device.getDescription());
     }
 }
