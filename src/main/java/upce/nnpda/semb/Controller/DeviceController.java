@@ -3,6 +3,7 @@ package upce.nnpda.semb.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import upce.nnpda.semb.DTO.AddDeviceDTO;
@@ -31,6 +32,16 @@ public class DeviceController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/{id}")
+    public Device getSingleDevice(Authentication authentication,@PathVariable(required = false) Long id) {
+        try {
+            return deviceService.getSingleDevice(authentication, id);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public Device addDevice(Authentication authentication,@RequestBody AddDeviceDTO device) {

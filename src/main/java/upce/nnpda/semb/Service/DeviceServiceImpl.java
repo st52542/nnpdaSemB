@@ -56,4 +56,10 @@ public class DeviceServiceImpl implements DeviceService{
         deviceRepository.save(forModify.get());
         return deviceRepository.findByDescription(device.getDescription());
     }
+
+    @Override
+    public Device getSingleDevice(Authentication authentication, Long id) {
+        userRepository.findByUsername(authentication.getName());
+        return deviceRepository.findById(id).get();
+    }
 }

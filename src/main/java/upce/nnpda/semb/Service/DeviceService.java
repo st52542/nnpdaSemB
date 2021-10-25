@@ -12,4 +12,5 @@ public interface DeviceService {
     List<Optional<Device>> getDevices(Authentication authentication);
     Device addDevice(Authentication authentication,AddDeviceDTO device);
     Device modifyDevice (Authentication authentication, ModifyDeviceDTO device);
+    Device getSingleDevice (Authentication authentication, Long id);
 }
